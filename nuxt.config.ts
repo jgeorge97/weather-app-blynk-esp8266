@@ -5,4 +5,5 @@ export default defineNuxtConfig({
     apiToken: process.env.BLYNK_AUTH_TOKEN,
   },
   css: ["~/assets/scss/main.scss"],
+  modules: ["@vueuse/nuxt"],
 });

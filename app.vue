@@ -16,7 +16,7 @@
               </header>
               <div class="card-content">
                 <p class="title is-size-3" :class="{ 'has-skeleton': valueStatus === 'pending' }">
-                  {{ values?.temperature }}°C
+                  {{ values?.temperature ?? "NA" }}°C
                 </p>
               </div>
             </div>
@@ -28,7 +28,7 @@
               </header>
               <div class="card-content">
                 <p class="title is-size-3" :class="{ 'has-skeleton': valueStatus === 'pending' }">
-                  {{ values?.humidity }}%
+                  {{ `${values?.humidity}%` ?? "NA" }}
                 </p>
               </div>
             </div>
@@ -40,7 +40,7 @@
               </header>
               <div class="card-content">
                 <p class="title is-size-3" :class="{ 'has-skeleton': valueStatus === 'pending' }">
-                  {{ values?.iaq }}
+                  {{ values?.iaq ?? "NA" }}
                 </p>
               </div>
             </div>
@@ -52,7 +52,7 @@
               </header>
               <div class="card-content">
                 <p class="title is-size-3" :class="{ 'has-skeleton': valueStatus === 'pending' }">
-                  {{ values?.pressure ? values?.pressure : 'N/A' }} hPa
+                  {{ `${values?.pressure}hPa` ?? 'N/A' }}
                 </p>
               </div>
             </div>
@@ -97,5 +97,13 @@ useHead({
 })
 const { data: connected, refresh: refreshStatus, status: connectedStatus } = await useFetch('/api/getStatus')
 const { data: values, refresh: refreshValues, status: valueStatus } = await useFetch('/api/getValues')
+
+useIntervalFn(() => {
+  refreshValues()
+}, 30 * 1000)
+
+useIntervalFn(() => {
+  refreshStatus()
+}, 60 * 1000)
 </script>
 <style></style>
